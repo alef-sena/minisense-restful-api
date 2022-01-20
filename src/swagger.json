@@ -1,0 +1,878 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "MiniSense RESTful API Documentation",
+        "contact": {
+            "email": "alefs07@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3333/",
+            "description": "MiniSense RESTful API test"
+        }
+    ],
+    "paths": {
+        "/measurementUnit": {
+            "post": {
+                "summary": "Registering a measurement unit",
+                "description": "Route responsible for registering a new unit of measure. No parameters are needed in the request, but you must assign a body in json format with a symbol and description of the new unit of measurement. If the symbol inserted in the body already exists, as a response you will receive a 400 response, but if the symbol does not exist you will receive a 200 response with a json with id, symbol and description.",
+                "tags": ["Measurement Unit"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MeasurementUnit"
+                            },
+                            "examples": {
+                                "measurementUnit": {
+                                    "value": {
+                                        "symbol": "#$%",
+                                        "description": "my measurement unit"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Measurement unit already exists."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MeasurementUnit"
+                                },
+                                "examples": {
+                                    "measurementUnit": {
+                                        "value": {
+                                            "id": 1,
+                                            "symbol": "#$%",
+                                            "description": "my measurement unit"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "List of all measurement units",
+                "description": "Route responsible for listing all measurement units. No parameters are needed in the request and no body. As a response you will receive a 200 response with a json with an array with all the measurement units registered or an empty array.",
+                "tags": ["Measurement Unit"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/MeasurementUnit"
+                                },
+                                "examples": {
+                                    "measurementUnit": {
+                                        "value": [
+                                            {
+                                                "id": 1,
+                                                "symbol": "ºC",
+                                                "description": "Celsius"
+                                            },
+                                            {
+                                                "id": 2,
+                                                "symbol": "mg/m³C",
+                                                "description": "Megagram per cubic metre"
+                                            },
+                                            {
+                                                "id": 3,
+                                                "symbol": "hPA",
+                                                "description": "hectopasca"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/measurementUnit/{measurementUnitDescription}": {
+            "get": {
+                "summary": "Query a measurement unit by its description",
+                "description": " Route responsible for querying a measurement unit for its description. You must pass the description of the measurement unit as a parameter. A bodysuit is not required. In response, if the description does not exist in the database you will receive a 400 response, but if the description exists you will receive a 200 response with a json with id, symbol and description.",
+                "tags": ["Measurement Unit"],
+                "parameters": [
+                    {
+                        "name": "measurementUnitDescription",
+                        "in": "path",
+                        "description": "Description of the measurement unit for consultation",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Measurement unit not found."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/MeasurementUnit"
+                                },
+                                "examples": {
+                                    "measurementUnit": {
+                                        "value": {
+                                            "id": 1,
+                                            "symbol": "#$%",
+                                            "description": "my measurement unit"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user": {
+            "post": {
+                "summary": "User registration",
+                "description": "Route responsible for registering a new user. No parameters are needed in the request but you must assign a body in json format with username and email. If the username or email of the body already exists in the database you will receive a 400 response, but if they do not exist you will receive a 200 response with a json with id, username and email.",
+                "tags": ["User"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            },
+                            "examples": {
+                                "user": {
+                                    "value": {
+                                        "username": "my_username",
+                                        "email": "my_email@gmail.com"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Username or email already exists."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "examples": {
+                                    "user": {
+                                        "value": {
+                                            "id": 1,
+                                            "username": "my_username",
+                                            "email": "my_email@hotmail.com"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "List of all registered users",
+                "description": "Route responsible for listing all registered users. No parameters are needed in the request and no body. In response you will receive a 200 response with a json with an array with all registered users or an empty array.",
+                "tags": ["User"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "examples": {
+                                    "user": {
+                                        "value": [
+                                            {
+                                                "id": 1,
+                                                "username": "my_email",
+                                                "email": "my_email@gmail.com"
+                                            },
+                                            {
+                                                "id": 2,
+                                                "username": "support",
+                                                "email": "support@gmail.com"
+                                            },
+                                            {
+                                                "id": 3,
+                                                "username": "aux",
+                                                "email": "aux@gmail.com"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{email}": {
+            "get": {
+                "summary": "Query a user by their email",
+                "description": "Route responsible for consulting a user by their email. You must pass a user's email as a parameter. A body is not needed. In response, if the email does not exist in the database you will receive a 400 response, but if the email exists you will receive a 200 response with a json with: id, username and email.",
+                "tags": ["User"],
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "path",
+                        "description": "User email for consultation",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "User not found."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "examples": {
+                                    "user": {
+                                        "value": {
+                                            "id": 1,
+                                            "username": "my_email",
+                                            "email": "my_email@hotmail.com"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sensorDevice": {
+            "post": {
+                "summary": "Registration of a sensory device",
+                "description": "Route responsible for registering a sensory device in a user's account through their email. No parameters are needed in the request but you must assign a body in json format with: email, label and description. In response, if the body email does not exist in the database or if the label already exists in the user's device list you will receive a 400 response, but if the email exists in the database and the label does not exist you will receive a 200 response with a json with: id, key, label and description.",
+                "tags": ["Sensor Device"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SensorDevice"
+                            },
+                            "examples": {
+                                "sensorDevice": {
+                                    "value": {
+                                        "email": "my_email@gmail.com",
+                                        "label": "my label",
+                                        "description": "my description"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "User not found or sensor device already exists."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/SensorDevice"
+                                },
+                                "examples": {
+                                    "sensorDevice": {
+                                        "value": {
+                                            "id": 1,
+                                            "key": "df43d6ab-47a0-46b5-a403-ba46297c1558",
+                                            "label": "my label",
+                                            "description": "my description"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "List of all sensory devices of registered users",
+                "description": "Route responsible for listing all available sensory devices in the database. No parameters are needed in the request and no body. As a response you will receive a 200 response with a json with an array with all the sensory devices registered or an empty array.",
+                "tags": ["Sensor Device"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/SensorDevice"
+                                },
+                                "examples": {
+                                    "sensorDevice": {
+                                        "value": [
+                                            {
+                                                "id": 1,
+                                                "key": "88705450-f3b5-480a-accc-d8ee07bb232f",
+                                                "label": "my label 01",
+                                                "description": "my description 01",
+                                                "user_id": 1
+                                            },
+                                            {
+                                                "id": 2,
+                                                "key": "70a5c190-352e-4a96-b2d6-feccaefff5ff",
+                                                "label": "my label 02",
+                                                "description": "my description 02",
+                                                "user_id": 4
+                                            },
+                                            {
+                                                "id": 3,
+                                                "key": "2d6969ed-0892-4759-b9c5-7cbf03b80ddc",
+                                                "label": "my label 03",
+                                                "description": "my description 03",
+                                                "user_id": 9
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sensorDevice/device/{key}": {
+            "get": {
+                "summary": "Query a sensor device by its key",
+                "description": "Route responsible for querying a sensory device by its key. You must pass the key of a sensory device as a parameter. A bodysuit is not required. As an answer, if the key is not compatible with another key in the database, you will receive a 400 response, but if the key is compatible you will receive a 200 response with a json with the device data: id, key, label, description and streams array. The streams array contains: id, key, label, unitId, deviceId, measurementsCount and measurements array. Only the last 5 measurements will be displayed. To view all measurements, a data stream must be consulted by its key.",
+                "tags": ["Sensor Device"],
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "path",
+                        "description": "Device key for query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Sensor device not found."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/SensorDevice"
+                                },
+                                "examples": {
+                                    "sensorDevice": {
+                                        "value": {
+                                            "id": 1,
+                                            "key": "8e9a5e56-cbe0-4e52-8177-4896a95ad3ac",
+                                            "label": "my device label 01",
+                                            "description": "my description 01",
+                                            "streams": {
+                                                "id": 1,
+                                                "key": "19252280-6df3-4397-8138-38e74584ef1b",
+                                                "label": "my stream label 01",
+                                                "unitId": 1,
+                                                "deviceId": 1,
+                                                "measurementCount": 2,
+                                                "measurements": [
+                                                    {
+                                                        "timestamp": "2022-20-01 20:33:15",
+                                                        "value": 259.43
+                                                    },
+                                                    {
+                                                        "timestamp": "2022-20-01 20:33:30",
+                                                        "value": 260.12
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sensorDevice/userDevice/{email}": {
+            "get": {
+                "summary": "Query a user's sensory devices via their email",
+                "description": "Route responsible for consulting a user's sensory devices via their email. You must pass a user's email as a parameter. A bodysuit is not required. As a response, if the email is not compatible with another email in the database, you will receive a 400 response, but if the email is compatible you will receive a 200 response with a json with an array with all the data of the user's devices: id, key, label, description and streams array. The streams array contains: id, key, label, unitId, deviceId and measurementsCount.",
+                "tags": ["Sensor Device"],
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "path",
+                        "description": "User email for device consultation",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "User not found."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/SensorDevice"
+                                },
+                                "examples": {
+                                    "sensorDevice": {
+                                        "value": [
+                                            {
+                                                "id": 1,
+                                                "key": "70444e39-8d29-49e8-9513-2b165eec4b28",
+                                                "label": "my device label 01",
+                                                "description": "my description 01",
+                                                "streams": [
+                                                    {
+                                                        "id": 1,
+                                                        "key": "c40a5b48-ae5d-4c76-8dd2-3a095201c628",
+                                                        "label": "my stream label 01",
+                                                        "unitId": 4,
+                                                        "deviceId": 1,
+                                                        "measurementCount": 12
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "id": 2,
+                                                "key": "67445649-20f5-42a2-80f0-f7186e3f28a5",
+                                                "label": "my device label 02",
+                                                "description": "my description 02",
+                                                "streams": [
+                                                    {
+                                                        "id": 1,
+                                                        "key": "ff05fe09-3efd-4b5f-acda-db073e13a482",
+                                                        "label": "my stream label 02",
+                                                        "unitId": 7,
+                                                        "deviceId": 2,
+                                                        "measurementCount": 3
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dataStream/{key}": {
+            "post": {
+                "summary": "Registration of a data stream in a sensor device",
+                "description": "Route responsible for registering a new data stream to a sensory device through its key. The key of a sensory device must be passed as a parameter, and the body must be passed the stream label and the id of a unit of measurement. As an answer, if the device key is not found in the database or if the label already exists you will receive a 400 response, but if the key is found and the label does not exist you will receive a 200 response with a json with: id, key, label, unitId, deviceId and measurementCount.",
+                "tags": ["Data Stream"],
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "path",
+                        "description": "Device key for query",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DataStream"
+                            },
+                            "examples": {
+                                "dataStream": {
+                                    "value": {
+                                        "label": "my label",
+                                        "unitId": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Device or measurement unit not found."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/DataStream"
+                                },
+                                "examples": {
+                                    "dataStream": {
+                                        "value": {
+                                            "id": 1,
+                                            "key": "2af21e45-fa70-4ce2-a07f-cb62d4c8dd7c",
+                                            "label": "my label",
+                                            "unitId": 1,
+                                            "deviceId": 1,
+                                            "measurementCount": 0
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Query a data stream by its key",
+                "description": "Route responsible for querying a data stream by its key. The key of a data stream must be passed as a parameter. A bodysuit is not required. As a response, if the informed key is not found in the database you will receive a 400 response, but if the key is found you will receive a 200 response with a json with: id, key, label, unitId, deviceId, measurementsCount ans measurements array. All measurements will be reported.",
+                "tags": ["Data Stream"],
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "path",
+                        "description": "Data stream key for query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Data stream not found."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/DataStream"
+                                },
+                                "examples": {
+                                    "dataStream": {
+                                        "value": {
+                                            "id": 1,
+                                            "key": "19252280-6df3-4397-8138-38e74584ef1b",
+                                            "label": "my label",
+                                            "unitId": 1,
+                                            "deviceId": 1,
+                                            "measurementCount": 4,
+                                            "measurements": [
+                                                {
+                                                    "timestamp": "2022-20-01 20:33:15",
+                                                    "value": 259.43
+                                                },
+                                                {
+                                                    "timestamp": "2022-20-01 20:33:30",
+                                                    "value": 260.12
+                                                },
+                                                {
+                                                    "timestamp": "2022-20-01 20:33:45",
+                                                    "value": 259.96
+                                                },
+                                                {
+                                                    "timestamp": "2022-20-01 20:34:00",
+                                                    "value": 261.86
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dataStream": {
+            "get": {
+                "summary": "Listing of all data streams available in the database",
+                "description": "Route responsible for listing all data streams available in the database. No parameters are needed in the request and no body. In response you will receive a 200 response with a json with an array with all data streams registered or an empty array.",
+                "tags": ["Data Stream"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/DataStream"
+                                },
+                                "examples": {
+                                    "dataStream": {
+                                        "value": [
+                                            {
+                                                "id": 1,
+                                                "key": "fde170de-7110-42e2-aa23-0e2d26040fbf",
+                                                "label": "my label 01",
+                                                "enabled": 1,
+                                                "measurementUnit_id": 3,
+                                                "sensorDevice_id": 16
+                                            },
+                                            {
+                                                "id": 2,
+                                                "key": "35f075c5-3d80-417b-bc74-3a65020476ef",
+                                                "label": "my label 02",
+                                                "enabled": 1,
+                                                "measurementUnit_id": 2,
+                                                "sensorDevice_id": 1
+                                            },
+                                            {
+                                                "id": 3,
+                                                "key": "89c038f6-e4d3-44d3-a23d-2f93ec0010d8",
+                                                "label": "my label 03",
+                                                "enabled": 0,
+                                                "measurementUnit_id": 5,
+                                                "sensorDevice_id": 3
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sensorData/{key}": {
+            "post": {
+                "summary": "Inserting measurement data into a data stream",
+                "description": "Route responsible for inserting new measurement data into a data stream. You must assign as a parameter the key of a data stream and a body in json format with a timestamp and a value. In response, if the key is not found in the database you will receive a 400 response, but if it is found you will receive a 200 response with a json with id, timestamp, value and unitId.",
+                "tags": ["Sensor Data"],
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "path",
+                        "description": "Data stream key for query",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SensorData"
+                            },
+                            "examples": {
+                                "sensorData": {
+                                    "value": {
+                                        "timestamp": "2022-20-01 20:21:15",
+                                        "value": 657.85
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Data stream not found."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/SensorData"
+                                },
+                                "examples": {
+                                    "sensorData": {
+                                        "value": {
+                                            "id": 1,
+                                            "timestamp": "2022-20-01 20:33:61",
+                                            "value": 657.85,
+                                            "unitId": 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sensorData": {
+            "get": {
+                "summary": "List of all measurement data available in the database",
+                "description": "Route responsible for listing all measurement data available in the database. No parameters are needed in the request and no body. In response you will receive a 200 response with a json with an array with all the measurement data available in the database or an empty array.",
+                "tags": ["Sensor Data"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/SensorData"
+                                },
+                                "examples": {
+                                    "sensorData": {
+                                        "value": [
+                                            {
+                                                "id": 1,
+                                                "timestamp": "2022-20-01 20:33:00",
+                                                "value": 71.86,
+                                                "measurementUnit_id": 4,
+                                                "dataStream_id": 6
+                                            },
+                                            {
+                                                "id": 2,
+                                                "timestamp": "2022-20-01 20:33:15",
+                                                "value": 3.76,
+                                                "measurementUnit_id": 5,
+                                                "dataStream_id": 8
+                                            },
+                                            {
+                                                "id": 3,
+                                                "timestamp": "2022-20-01 20:33:30",
+                                                "value": 132.16,
+                                                "measurementUnit_id": 5,
+                                                "dataStream_id": 13
+                                            },
+                                            {
+                                                "id": 4,
+                                                "timestamp": "2022-20-01 20:33:45",
+                                                "value": 5.13,
+                                                "measurementUnit_id": 2,
+                                                "dataStream_id": 8
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "MeasurementUnit": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "symbol": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                }
+                
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    }
+                }
+                
+            },
+            "SensorDevice": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "key": {
+                        "type": "string"
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "type": "number"
+                    }
+                }
+                
+            },
+            "DataStream": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "key": {
+                        "type": "string"
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "measurementUnit_id": {
+                        "type": "number"
+                    },
+                    "sensorDevice_id": {
+                        "type": "number"
+                    }
+                }
+            },
+            "SensorData": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "timestamp": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "type": "number"
+                    },
+                    "measurementUnit_id": {
+                        "type": "number"
+                    },
+                    "dataStream_id": {
+                        "type": "number"
+                    }
+                }
+                
+            }
+        }
+    }
+}
