@@ -17,7 +17,7 @@ The project consists of a RESTful API for an application that monitors sensory d
 
 ```bash
 # Clone the repository
-$ git clone https://github.com/alef-sena/readme-test.git
+$ git clone https://github.com/alef-sena/minisense-restful-api
 ```
 ```bash
 # Enter directory
